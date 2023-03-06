@@ -5,28 +5,41 @@ import rigoImage from "../../img/rigo-baby.jpg";
 
 //create your first component 
 const Home = () => {
-	const [inputValue, setInputValue ] = useState()
-	const [todos, setTodos] = useState()
-
+	const [inputValue, setInputValue ] = useState("")
+	const [todos, setTodos] = useState([])
 
 	return (
 		<div className="container">
-
 			<h1>ToDos</h1>
+		<div className="card">
 			<ul>
-				<li><input type="text" 
-						onChange={(e) => setInputValue.target.value }
+				<li>
+					<input 
+						type="text" 
+						className="no-outline"
+						onChange={(e) => setInputValue(e.target.value)}
 						value={inputValue}
-						onKeyDown={(e) => e.charCode === 13 ? setTodos(setTodos.concat(inputValue)) : null}
-						placeholder="What do you need to do"></input></li>
-				<li>Make the bed</li>
-				<li>Pay the bills</li>
-				<li>Brush Teeth</li>
-				<li>Code a program</li>
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') {
+								setTodos(todos.concat([inputValue]));
+								setInputValue("");
+							}
+						}}
+						placeholder="No Tasks, Add A Task"></input>
+						</li>
+				{todos.map((item, index) => (
+				
+					<li>
+						
+						{item}{""}
+						 <i className="fa fa-times" aria-hidden="true" onClick={() => setTodos(todos.filter((t, currentIndex) => index != currentIndex))}></i>
+						</li>
+				))}
 			</ul>
-			<div type="footer">5 Left</div>
-	
+			<div className="footer">{todos.length} Tasks Left</div>
 		</div>
+	</div>
+	
 	);
 };
 
